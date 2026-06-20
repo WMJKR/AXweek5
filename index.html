@@ -3,35 +3,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AXweek5 - GitHub Pages Test</title>
+  <title>Claude - Anthropic의 AI 어시스턴트</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0a0a0f;
+      color: #e8e8f0;
+      line-height: 1.6;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: #0d1117;
-      color: #e6edf3;
-    }
-    .container {
       text-align: center;
+      padding: 2rem;
+      background: radial-gradient(ellipse at 50% 40%, #1a1030 0%, #0a0a0f 70%);
+      position: relative;
+      overflow: hidden;
     }
-    h1 {
-      font-size: 2.5rem;
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(138, 99, 210, 0.15) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #8a63d2, #c084fc);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 40px rgba(138, 99, 210, 0.4);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #e8e8f0 30%, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: #9090b0;
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(138, 99, 210, 0.15);
+      border: 1px solid rgba(138, 99, 210, 0.4);
+      color: #c084fc;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8a63d2, #c084fc);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 20px rgba(138, 99, 210, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(138, 99, 210, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #c084fc;
+      border: 1px solid rgba(138, 99, 210, 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(138, 99, 210, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Section common */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #9090b0;
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 3.5rem;
+    }
+
+    /* Features */
+    .features {
+      background: #0d0d16;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #13131f, #1a1a2e);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(138, 99, 210, 0.3);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
     }
-    p {
-      color: #8b949e;
-      font-size: 1.1rem;
+
+    .feature-card p {
+      color: #9090b0;
+      font-size: 0.95rem;
+    }
+
+    /* Stats */
+    .stats {
+      background: #0a0a0f;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #8a63d2, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      color: #9090b0;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Principles */
+    .principles {
+      background: #0d0d16;
+    }
+
+    .principles-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .principle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .principle-num {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #8a63d2, #c084fc);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .principle-item h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-item p {
+      color: #9090b0;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: radial-gradient(ellipse at 50% 0%, #1a1030 0%, #0a0a0f 80%);
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-banner p {
+      color: #9090b0;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #0a0a0f;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+      padding: 2rem;
+      color: #55556a;
+      font-size: 0.875rem;
+    }
+
+    footer span {
+      color: #c084fc;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>AXweek5</h1>
-    <p>GitHub Pages 배포 테스트 성공</p>
-  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Powered by Anthropic</div>
+    <div class="logo">🤖</div>
+    <h1>Claude</h1>
+    <p class="tagline">당신의 생각을 확장하는 AI 어시스턴트. 대화하고, 분석하고, 창조하세요.</p>
+    <div class="cta-group">
+      <a href="https://claude.ai" class="btn btn-primary">무료로 시작하기</a>
+      <a href="https://anthropic.com" class="btn btn-secondary">더 알아보기</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <h2 class="section-title">Claude가 할 수 있는 것</h2>
+    <p class="section-sub">코딩부터 창작, 분석까지 — 어떤 작업이든 함께합니다.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💻</div>
+        <h3>코드 작성 & 디버깅</h3>
+        <p>Python, JavaScript, TypeScript 등 다양한 언어로 코드를 작성하고 버그를 찾아 수정합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>글쓰기 & 편집</h3>
+        <p>보고서, 이메일, 블로그 포스트 등 다양한 형식의 글을 작성하고 다듬어 드립니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>데이터 분석</h3>
+        <p>복잡한 데이터를 이해하고 인사이트를 추출하여 명확한 설명으로 전달합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>창의적 작업</h3>
+        <p>소설, 시나리오, 아이디어 브레인스토밍 등 창의적인 프로젝트를 함께 만들어 갑니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>번역 & 언어</h3>
+        <p>100개 이상의 언어를 이해하고 자연스럽게 번역합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>학습 & 설명</h3>
+        <p>복잡한 개념을 쉽고 친근하게 설명해 드립니다. 어떤 주제든 같이 탐구해요.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <h2 class="section-title">숫자로 보는 Claude</h2>
+    <p class="section-sub">전 세계 수백만 명이 Claude와 함께 일하고 있습니다.</p>
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number">200K</div>
+        <div class="stat-label">최대 컨텍스트 토큰</div>
+      </div>
+      <div>
+        <div class="stat-number">100+</div>
+        <div class="stat-label">지원 언어</div>
+      </div>
+      <div>
+        <div class="stat-number">2021</div>
+        <div class="stat-label">설립 연도</div>
+      </div>
+      <div>
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">언제든 이용 가능</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="principles">
+    <h2 class="section-title">Claude의 핵심 원칙</h2>
+    <p class="section-sub">Anthropic은 안전하고 유익한 AI를 만들기 위해 노력합니다.</p>
+    <div class="principles-list">
+      <div class="principle-item">
+        <div class="principle-num">1</div>
+        <div>
+          <h3>도움이 되기 (Helpful)</h3>
+          <p>사용자의 요청을 진정성 있게 이해하고, 실질적으로 도움이 되는 응답을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">2</div>
+        <div>
+          <h3>무해성 (Harmless)</h3>
+          <p>개인과 사회에 해를 끼치는 콘텐츠 생성을 거부하고 안전한 AI 사용을 지향합니다.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">3</div>
+        <div>
+          <h3>정직성 (Honest)</h3>
+          <p>확실하지 않은 정보는 솔직히 말하고, 모르는 것은 모른다고 인정합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <h2>지금 바로 Claude를 경험하세요</h2>
+    <p>무료로 시작할 수 있습니다. 신용카드 불필요.</p>
+    <div class="cta-group" style="justify-content: center;">
+      <a href="https://claude.ai" class="btn btn-primary">Claude 시작하기</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 <span>Anthropic</span>. Claude는 Anthropic이 개발한 AI 어시스턴트입니다.</p>
+  </footer>
+
 </body>
 </html>
